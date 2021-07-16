@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">habits</string>
+
+    <string-array name="priorities">
+        <item>Капец как важно</item>
+        <item>Важно</item>
+        <item>Похуй</item>
+    </string-array>
 </resources>

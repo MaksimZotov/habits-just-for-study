@@ -2,18 +2,26 @@ package com.maksimzotov.habits
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
+
+import kotlinx.android.synthetic.main.activity_second.*
 
 class SecondActivity : AppCompatActivity() {
-    private val COUNT_INFO = "COUNT_INFO"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        findViewById<TextView>(R.id.countSecondAct).apply {
-            val count = intent.getIntExtra(COUNT_INFO, 0)
-            text = (count * count).toString()
+        save_habit.setOnClickListener {
+            saveHabit()
         }
+    }
+
+    fun saveHabit() {
+        Adapter.habits.add(Habit().apply {
+            firstField = first_field_edit.text.toString()
+            secondField = second_field_edit.text.toString()
+        })
+        onBackPressed()
+        Adapter.notifyItemInserted(Adapter.habits.lastIndex)
     }
 }
