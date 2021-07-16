@@ -2,8 +2,8 @@
     <string name="app_name">habits</string>
 
     <string-array name="priorities">
-        <item>Капец как важно</item>
         <item>Важно</item>
-        <item>Похуй</item>
+        <item>Среднее</item>
+        <item>Не важно</item>
     </string-array>
 </resources>
