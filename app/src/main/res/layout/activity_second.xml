@@ -49,10 +49,10 @@
                 android:inputType="textMultiLine" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textView3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Тип привычки" />
+                android:text="Приоритет" />
 
             <Spinner
                 android:id="@+id/spinner"
@@ -62,10 +62,10 @@
                 android:entries="@array/priorities" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Приоритет" />
+                android:text="Тип привычки" />
 
             <RadioGroup
                 android:layout_width="match_parent"
