@@ -147,11 +147,10 @@
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#FF0000" />
 
                     <View
                         android:layout_width="64dp"
@@ -159,7 +158,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#FF7F00" />
 
                     <View
                         android:layout_width="64dp"
@@ -167,7 +166,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#FFFF00" />
 
                     <View
                         android:layout_width="64dp"
@@ -175,7 +174,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#7FFF00" />
 
                     <View
                         android:layout_width="64dp"
@@ -183,7 +182,7 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#00FF00" />
 
                     <View
                         android:layout_width="64dp"
@@ -191,7 +190,86 @@
                         android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="@drawable/rectangle" />
+                        android:background="#00FF7F" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#00FFFF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#007FFF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#0000FF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#7F00FF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#FF00FF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#FF007F" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#FF0000" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#007FFF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#003FFF" />
+
+                    <View
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#0000FF" />
 
                 </LinearLayout>
             </HorizontalScrollView>

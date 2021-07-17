@@ -19,11 +19,20 @@ class SecondActivity : AppCompatActivity() {
 
         val drawable = GradientDrawable(
             GradientDrawable.Orientation.BL_TR,
-            intArrayOf(Color.RED, Color.GREEN, Color.BLUE, Color.CYAN, Color.MAGENTA)
+            intArrayOf(
+                Color.RED,
+                Color.YELLOW,
+                Color.GREEN,
+                Color.CYAN,
+                Color.BLUE,
+                Color.MAGENTA,
+                Color.RED
+            )
         )
+        drawable.alpha = 85
         drawable.shape = GradientDrawable.RECTANGLE
         drawable.gradientType = GradientDrawable.LINEAR_GRADIENT
-        drawable.cornerRadius = 40f
+        //drawable.cornerRadius = 40f
         bg_colors.background = drawable
     }
 
