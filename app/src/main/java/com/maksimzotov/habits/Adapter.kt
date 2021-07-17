@@ -1,27 +1,38 @@
 package com.maksimzotov.habits
 
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_view.view.*
-import java.util.logging.Handler
 
 object Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    val POSITION_KEY = "POSITION"
     val habits = mutableListOf<Habit>()
 
-    init {
-        addHabits(20)
+    interface OnClickListener {
+        fun onClick(position: Int)
     }
+    var onClickListener: OnClickListener? = null
 
     class ViewHolder(
         override val containerView: View
-    ) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    ) : RecyclerView.ViewHolder(containerView), LayoutContainer, View.OnClickListener {
+
+        init {
+            itemView.setOnClickListener(this)
+        }
 
         fun bind(habit: Habit) {
-            containerView.first_field.text = habit.firstField
-            containerView.second_field.text = habit.secondField
+            containerView.name_in_view_holder.text = habit.name
+            containerView.view_holder.background = ColorDrawable(habit.intColor)
+        }
+
+        override fun onClick(view: View) {
+            onClickListener?.onClick(adapterPosition)
         }
     }
 
@@ -36,14 +47,5 @@ object Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     override fun getItemCount(): Int {
         return habits.size
-    }
-
-    private fun addHabits(size: Int) {
-        for (i in 0 until size) {
-            habits.add(Habit().apply {
-                firstField = "the first field ${i + 1}"
-                secondField = "the second field ${i + 1}"
-            })
-        }
     }
 }

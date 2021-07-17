@@ -27,7 +27,7 @@
                 android:text="Название привычки" />
 
             <EditText
-                android:id="@+id/first_field_edit"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
@@ -42,7 +42,7 @@
                 android:text="Описание привычки" />
 
             <EditText
-                android:id="@+id/second_field_edit"
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
@@ -57,7 +57,7 @@
                 android:text="Приоритет" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/priority"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
@@ -70,6 +70,7 @@
                 android:text="Тип привычки" />
 
             <RadioGroup
+                android:id="@+id/type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="32dp">
@@ -107,7 +108,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName"
+                    android:id="@+id/number_of_performed_exercises"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -116,7 +117,7 @@
                     android:inputType="textPersonName" />
 
                 <EditText
-                    android:id="@+id/editTextTextPersonName2"
+                    android:id="@+id/frequency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -2,6 +2,8 @@ package com.maksimzotov.habits
 
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContextCompat
@@ -11,17 +13,22 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_view.view.*
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity() : AppCompatActivity(), Adapter.OnClickListener {
+    private var prevBG: Drawable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         add_btn.setOnClickListener {
-            HabitState.currentState = State.ADD
-            startActivity(Intent(this, SecondActivity::class.java))
+            startActivity(Intent(this, SecondActivity::class.java).apply {
+                putExtra(Adapter.POSITION_KEY, -1)
+            })
         }
+
+        Adapter.onClickListener = this
 
         recycler_view.adapter = Adapter
 
@@ -30,35 +37,8 @@ class MainActivity() : AppCompatActivity() {
         )
 
         ItemTouchHelper(object : ItemTouchHelper.Callback() {
-
-            override fun isLongPressDragEnabled(): Boolean {
-                return true
-            }
-
-            override fun isItemViewSwipeEnabled(): Boolean {
-                return true
-            }
-
-            override fun clearView(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) {
-                super.clearView(recyclerView, viewHolder)
-                viewHolder.itemView.setBackgroundColor(resources.getColor(R.color.white))
-            }
-
-            override fun onSelectedChanged(
-                viewHolder: RecyclerView.ViewHolder?,
-                actionState: Int
-            ) {
-                super.onSelectedChanged(viewHolder, actionState)
-                if (
-                    actionState == ItemTouchHelper.ACTION_STATE_DRAG ||
-                    actionState == ItemTouchHelper.ACTION_STATE_SWIPE
-                ) {
-                    viewHolder?.itemView?.setBackgroundColor(Color.LTGRAY)
-                }
-            }
+            override fun isLongPressDragEnabled() = true
+            override fun isItemViewSwipeEnabled() = true
 
             override fun getMovementFlags(
                 recyclerView: RecyclerView,
@@ -75,25 +55,52 @@ class MainActivity() : AppCompatActivity() {
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                val habitFrom = Adapter.habits.removeAt(from)
+                Adapter.habits.add(to, habitFrom)
+                Adapter.notifyItemMoved(from, to)
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                onItemSwiped(viewHolder.adapterPosition)
+                Adapter.habits.removeAt(viewHolder.adapterPosition)
+                Adapter.notifyItemRemoved(viewHolder.adapterPosition)
+            }
+
+            override fun onSelectedChanged(
+                viewHolder: RecyclerView.ViewHolder?,
+                actionState: Int
+            ) {
+                super.onSelectedChanged(viewHolder, actionState)
+                if (
+                    actionState == ItemTouchHelper.ACTION_STATE_DRAG ||
+                    actionState == ItemTouchHelper.ACTION_STATE_SWIPE
+                ) {
+                    prevBG = viewHolder?.itemView?.background
+                    viewHolder?.itemView?.background = ColorDrawable(Color.LTGRAY)
+                }
+            }
+
+            override fun clearView(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) {
+                super.clearView(recyclerView, viewHolder)
+                viewHolder.itemView.background = prevBG
             }
 
         }).attachToRecyclerView(recycler_view)
     }
 
-    private fun onItemMove(from: Int, to: Int) {
-        val habitFrom = Adapter.habits.removeAt(from)
-        Adapter.habits.add(to, habitFrom)
-        Adapter.notifyItemMoved(from, to)
+    override fun onDestroy() {
+        super.onDestroy()
+        Adapter.onClickListener = null
     }
 
-    private fun onItemSwiped(position: Int) {
-        Adapter.habits.removeAt(position)
-        Adapter.notifyItemRemoved(position)
+    override fun onClick(position: Int) {
+        startActivity(Intent(this, SecondActivity::class.java).apply {
+            putExtra(Adapter.POSITION_KEY, position)
+        })
     }
 }

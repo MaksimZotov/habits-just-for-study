@@ -4,16 +4,21 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.set
 import kotlinx.android.synthetic.main.activity_second.*
 
 
 class SecondActivity : AppCompatActivity() {
+    var position = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
+
+        position = intent.getIntExtra(Adapter.POSITION_KEY, -1)
 
         save_habit.setOnClickListener {
             saveHabit()
@@ -62,6 +67,14 @@ class SecondActivity : AppCompatActivity() {
                 cur_hsv.text = "HSV: ${convertIntColorToHex(intColor)}"
             }
         } }
+
+        if (position != -1) {
+            val habit = Adapter.habits[position]
+            name.setText(habit.name)
+            cur_bg.setBackgroundColor(habit.intColor)
+            cur_rgb.text = "RGB: ${convertIntColorToRGB(habit.intColor)}"
+            cur_hsv.text = "HSV: ${convertIntColorToHex(habit.intColor)}"
+        }
     }
 
     private fun convertIntColorToRGB(intColor: Int): String {
@@ -75,79 +88,27 @@ class SecondActivity : AppCompatActivity() {
         return String.format("#%06X", 0xFFFFFF and intColor)
     }
 
-    fun saveHabit() {
-        Adapter.habits.add(Habit().apply {
-            firstField = first_field_edit.text.toString()
-            secondField = second_field_edit.text.toString()
-        })
-        onBackPressed()
-        Adapter.notifyItemInserted(Adapter.habits.lastIndex)
-    }
-
-    fun createColors() {
-        val colorsView = listOf<View>(
-            color_0,
-            color_1,
-            color_2,
-            color_3,
-            color_4,
-            color_5,
-            color_6,
-            color_7,
-            color_8,
-            color_9,
-            color_10,
-            color_11,
-            color_12,
-            color_13,
-            color_14,
-            color_15
-        )
-        val colorsRGB = listOf(
-            Triple(255, 0, 0)
-        )
-        val colorsHex = listOf(
-            "#FF0000",
-            "#FF5F00",
-            "#FFBF00",
-            "#DFFF00",
-            "#7FFF00",
-            "#1FFF00",
-            "#00FF3F",
-            "#00FF9F",
-            "#00FFFF",
-            "#009FFF",
-            "#001FFF",
-            "#3F00FF",
-            "#9F00FF",
-            "#FF00FF",
-            "#FF009F",
-            "#FF003F"
-        )
-    }
-
-    fun translateRGBToHex(rgb: Triple<Int, Int, Int>): String {
-        val map10To16 = mapOf(
-            0 to '0', 1 to '1', 2 to '2', 3 to '3', 4 to '4', 5 to '5',
-            6 to '6', 7 to '7', 8 to '8', 9 to '9', 10 to 'A', 11 to 'B',
-            12 to 'C', 13 to 'D', 14 to 'E', 15 to 'F'
-        )
-        val strBuilder = StringBuilder("#")
-
-        val listOfRedGreenBlue = listOf(rgb.first, rgb.second, rgb.third)
-
-        for (number in listOfRedGreenBlue) {
-            val localStrBuilder = StringBuilder()
-            var mod = number
-            var div = number
-            while (mod >= 16) {
-                mod = div % 16
-                localStrBuilder.append(map10To16[mod])
-                div /= 16
+    private fun saveHabit() {
+        if (position == -1) {
+            Adapter.habits.add(Habit().apply {
+                name = this@SecondActivity.name.text.toString()
+                description = this@SecondActivity.description.text.toString()
+                if (cur_bg.background is ColorDrawable) {
+                    intColor = (cur_bg.background as ColorDrawable).color
+                }
+            })
+            onBackPressed()
+            Adapter.notifyItemInserted(Adapter.habits.lastIndex)
+        } else {
+            Adapter.habits[position].apply {
+                name = this@SecondActivity.name.text.toString()
+                description = this@SecondActivity.description.text.toString()
+                if (cur_bg.background is ColorDrawable) {
+                    intColor = (cur_bg.background as ColorDrawable).color
+                }
             }
-            strBuilder.append(localStrBuilder.reversed())
+            onBackPressed()
+            Adapter.notifyItemChanged(position)
         }
-
-        return strBuilder.toString()
     }
 }
