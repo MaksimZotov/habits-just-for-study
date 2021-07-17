@@ -1,6 +1,7 @@
 package com.maksimzotov.habits
 
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.View
@@ -30,10 +31,10 @@ class SecondActivity : AppCompatActivity() {
                 Color.RED
             )
         )
-        //drawable.alpha = 85
+        drawable.alpha = 97
         drawable.shape = GradientDrawable.RECTANGLE
         drawable.gradientType = GradientDrawable.LINEAR_GRADIENT
-        //drawable.cornerRadius = 40f
+        drawable.cornerRadius = 20f
         bg_colors.background = drawable
 
         listOf<View>(
@@ -55,7 +56,23 @@ class SecondActivity : AppCompatActivity() {
             color_15
         ).forEach { it.setOnClickListener {
             cur_bg.background = it.background
+            if (cur_bg.background is ColorDrawable) {
+                val intColor = (cur_bg.background as ColorDrawable).color
+                cur_rgb.text = "RGB: ${convertIntColorToRGB(intColor)}"
+                cur_hsv.text = "HSV: ${convertIntColorToHex(intColor)}"
+            }
         } }
+    }
+
+    private fun convertIntColorToRGB(intColor: Int): String {
+        val red = Color.red(intColor)
+        val green = Color.green(intColor)
+        val blue = Color.blue(intColor)
+        return "$red, $green, $blue"
+    }
+
+    private fun convertIntColorToHex(intColor: Int): String {
+        return String.format("#%06X", 0xFFFFFF and intColor)
     }
 
     fun saveHabit() {
@@ -86,10 +103,10 @@ class SecondActivity : AppCompatActivity() {
             color_14,
             color_15
         )
-        val colorsRGB = listOf<Triple<Int, Int, Int>>(
-
+        val colorsRGB = listOf(
+            Triple(255, 0, 0)
         )
-        val colorsHex = listOf<String>(
+        val colorsHex = listOf(
             "#FF0000",
             "#FF5F00",
             "#FFBF00",
@@ -107,5 +124,30 @@ class SecondActivity : AppCompatActivity() {
             "#FF009F",
             "#FF003F"
         )
+    }
+
+    fun translateRGBToHex(rgb: Triple<Int, Int, Int>): String {
+        val map10To16 = mapOf(
+            0 to '0', 1 to '1', 2 to '2', 3 to '3', 4 to '4', 5 to '5',
+            6 to '6', 7 to '7', 8 to '8', 9 to '9', 10 to 'A', 11 to 'B',
+            12 to 'C', 13 to 'D', 14 to 'E', 15 to 'F'
+        )
+        val strBuilder = StringBuilder("#")
+
+        val listOfRedGreenBlue = listOf(rgb.first, rgb.second, rgb.third)
+
+        for (number in listOfRedGreenBlue) {
+            val localStrBuilder = StringBuilder()
+            var mod = number
+            var div = number
+            while (mod >= 16) {
+                mod = div % 16
+                localStrBuilder.append(map10To16[mod])
+                div /= 16
+            }
+            strBuilder.append(localStrBuilder.reversed())
+        }
+
+        return strBuilder.toString()
     }
 }
