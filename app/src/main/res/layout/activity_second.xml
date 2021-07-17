@@ -127,25 +127,19 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:text="Текущий цвет" />
-
-            <View
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_marginBottom="32dp"
-                android:background="@drawable/rectangle" />
+                android:text="Выбор цвета" />
 
             <HorizontalScrollView
+                android:id="@+id/scroll_view_color"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="128dp"
-                android:background="@drawable/gradient">
+                android:layout_marginBottom="32dp">
 
                 <LinearLayout
+                    android:id="@+id/bg_colors"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -153,41 +147,80 @@
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                     <View
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
                         android:background="@drawable/rectangle" />
 
                 </LinearLayout>
             </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="Текущий цвет" />
+
+            <View
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/rectangle" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RGB: " />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="128dp"
+                android:text="HSV:" />
 
         </LinearLayout>
     </ScrollView>
