@@ -145,131 +145,132 @@
                     android:orientation="horizontal">
 
                     <View
+                        android:id="@+id/color_0"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
                         android:background="#FF0000" />
 
                     <View
+                        android:id="@+id/color_1"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#FF7F00" />
+                        android:background="#FF5F00" />
 
                     <View
+                        android:id="@+id/color_2"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#FFFF00" />
+                        android:background="#FFBF00" />
 
                     <View
+                        android:id="@+id/color_3"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#DFFF00" />
+
+                    <View
+                        android:id="@+id/color_4"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:background="#7FFF00" />
 
                     <View
+                        android:id="@+id/color_5"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#00FF00" />
+                        android:background="#1FFF00" />
 
                     <View
+                        android:id="@+id/color_6"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#00FF7F" />
+                        android:background="#00FF3F" />
 
                     <View
+                        android:id="@+id/color_7"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#00FF9F" />
+
+                    <View
+                        android:id="@+id/color_8"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:background="#00FFFF" />
 
                     <View
+                        android:id="@+id/color_9"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#007FFF" />
+                        android:background="#009FFF" />
 
                     <View
+                        android:id="@+id/color_10"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#0000FF" />
+                        android:background="#001FFF" />
 
                     <View
+                        android:id="@+id/color_11"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#7F00FF" />
+                        android:background="#3F00FF" />
 
                     <View
+                        android:id="@+id/color_12"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:background="#9F00FF" />
+
+                    <View
+                        android:id="@+id/color_13"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
                         android:background="#FF00FF" />
 
                     <View
+                        android:id="@+id/color_14"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#FF007F" />
+                        android:background="#FF009F" />
 
                     <View
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="#FF0000" />
-
-                    <View
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="#007FFF" />
-
-                    <View
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="4dp"
-                        android:background="#003FFF" />
-
-                    <View
+                        android:id="@+id/color_15"
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
-                        android:background="#FF0000" />
+                        android:background="#FF003F" />
 
                 </LinearLayout>
             </HorizontalScrollView>
@@ -282,10 +283,11 @@
                 android:text="Текущий цвет" />
 
             <View
+                android:id="@+id/cur_bg"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginBottom="4dp"
-                android:background="@drawable/rectangle" />
+                android:background="#FF0000" />
 
             <TextView
                 android:id="@+id/textView7"
