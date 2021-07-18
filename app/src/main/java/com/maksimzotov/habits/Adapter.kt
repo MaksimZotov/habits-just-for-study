@@ -10,8 +10,8 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_view.view.*
 
 object Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
-    val POSITION_KEY = "POSITION"
     val habits = mutableListOf<Habit>()
+    var curPosition = -1
 
     interface OnClickListener {
         fun onClick(position: Int)
