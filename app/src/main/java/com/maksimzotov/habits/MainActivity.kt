@@ -6,14 +6,11 @@ import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.item_view.view.*
 
 class MainActivity() : AppCompatActivity(), Adapter.OnClickListener {
     private var prevBG: Drawable? = null
@@ -22,16 +19,7 @@ class MainActivity() : AppCompatActivity(), Adapter.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        add_btn.setOnClickListener {
-            startActivity(Intent(this, SecondActivity::class.java).apply {
-                putExtra(Adapter.POSITION_KEY, -1)
-            })
-        }
-
-        Adapter.onClickListener = this
-
         recycler_view.adapter = Adapter
-
         recycler_view.addItemDecoration(
             DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         )
@@ -91,6 +79,14 @@ class MainActivity() : AppCompatActivity(), Adapter.OnClickListener {
             }
 
         }).attachToRecyclerView(recycler_view)
+
+        Adapter.onClickListener = this
+
+        add_habit.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java).apply {
+                putExtra(Adapter.POSITION_KEY, -1)
+            })
+        }
     }
 
     override fun onDestroy() {

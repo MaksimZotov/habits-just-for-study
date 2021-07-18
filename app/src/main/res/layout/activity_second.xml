@@ -76,19 +76,19 @@
                 android:layout_marginBottom="32dp">
 
                 <RadioButton
-                    android:id="@+id/radioButton"
+                    android:id="@+id/radioButton0"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Вредная" />
 
                 <RadioButton
-                    android:id="@+id/radioButton2"
+                    android:id="@+id/radioButton1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Полезная" />
 
                 <RadioButton
-                    android:id="@+id/radioButton3"
+                    android:id="@+id/radioButton2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Нейтральная " />
@@ -305,7 +305,7 @@
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginBottom="4dp"
-                android:background="#FF0000" />
+                android:background="#FF3900" />
 
             <TextView
                 android:id="@+id/cur_rgb"
