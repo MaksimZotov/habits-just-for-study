@@ -5,19 +5,31 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
-class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
+class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
+    private var habits: MutableList<Habit> = Logic.habits
+
     private var prevBG: Drawable? = null
+    private lateinit var habitsAdapter: HabitsAdapter
+
+    constructor(habits: MutableList<Habit>) : this() {
+        this.habits = habits
+    }
 
     override fun onResume() {
         super.onResume()
@@ -38,7 +50,9 @@ class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val addHabit = view.findViewById<FloatingActionButton>(R.id.add_habit)
 
-        recyclerView.adapter = Adapter
+        habitsAdapter = HabitsAdapter(habits, this)
+
+        recyclerView.adapter = habitsAdapter
         recyclerView.addItemDecoration(
             DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
         )
@@ -64,15 +78,15 @@ class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
             ): Boolean {
                 val from = viewHolder.adapterPosition
                 val to = target.adapterPosition
-                val habitFrom = Adapter.habits.removeAt(from)
-                Adapter.habits.add(to, habitFrom)
-                Adapter.notifyItemMoved(from, to)
+                val habitFrom = habitsAdapter.habits.removeAt(from)
+                habitsAdapter.habits.add(to, habitFrom)
+                habitsAdapter.notifyItemMoved(from, to)
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                Adapter.habits.removeAt(viewHolder.adapterPosition)
-                Adapter.notifyItemRemoved(viewHolder.adapterPosition)
+                habitsAdapter.habits.removeAt(viewHolder.adapterPosition)
+                habitsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
 
             override fun onSelectedChanged(
@@ -99,23 +113,40 @@ class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
 
         }).attachToRecyclerView(recyclerView)
 
-        Adapter.onClickListener = this
-
         addHabit.setOnClickListener {
-            Adapter.curPosition = -1
+            Logic.curPosition = -1
             findNavController().navigate(R.id.habitEditorFragment)
         }
+
+        if (Logic.state == State.ITEM_INSERTED) {
+            habitsAdapter.notifyItemInserted(Logic.curPosition)
+        } else if (Logic.state == State.ITEM_CHANGED) {
+            habitsAdapter.notifyItemChanged(Logic.curPosition)
+        }
+
+        Logic.state = State.NOTHING
+        Logic.curPosition = -1
 
         return view
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        Adapter.onClickListener = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val activity = requireActivity()
+        val ordersPagerTabLayout = activity.findViewById<TabLayout>(R.id.orders_pager_tab_layout)
+        val ordersPagerViewPager = activity.findViewById<ViewPager2>(R.id.orders_pager_view_pager)
+        ordersPagerViewPager.adapter = ViewPagerAdapter(activity as AppCompatActivity)
+        TabLayoutMediator(ordersPagerTabLayout, ordersPagerViewPager) { tab, position ->
+            tab.text = if (position == 0) {
+                "Важные"
+            } else {
+                "Неважные"
+            }
+        }
     }
 
     override fun onClick(position: Int) {
-        Adapter.curPosition = position
+        Logic.curPosition = position
         findNavController().navigate(R.id.habitEditorFragment)
     }
 }

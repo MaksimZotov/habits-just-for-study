@@ -1,18 +1,14 @@
 package com.maksimzotov.habits
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
-import android.hardware.input.InputManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -82,17 +78,10 @@ class HabitEditorFragment : Fragment() {
         colorsBG.cornerRadius = cornerRadiusBG
         bgColors.background = colorsBG
 
-        bgColors.forEach { it.setOnClickListener {
-            curBG.background = it.background
-            val intColor = (curBG.background as ColorDrawable).color
-            curRGB.text = "RGB: ${convertIntColorToRGB(intColor)}"
-            curHSV.text = "HSV: ${convertIntColorToHex(intColor)}"
-        } }
-
-        position = Adapter.curPosition
+        position = Logic.curPosition
 
         if (position != -1) {
-            val habit = Adapter.habits[position]
+            val habit = Logic.habits[position]
             name.setText(habit.name)
             description.setText(habit.description)
             priority.setSelection(habit.priorityPosition)
@@ -106,6 +95,13 @@ class HabitEditorFragment : Fragment() {
             curRGB.text = "RGB: $defaultRGB"
             curHSV.text = "HSV: $defaultHSV"
         }
+
+        bgColors.forEach { it.setOnClickListener {
+            curBG.background = it.background
+            val intColor = (curBG.background as ColorDrawable).color
+            curRGB.text = "RGB: ${convertIntColorToRGB(intColor)}"
+            curHSV.text = "HSV: ${convertIntColorToHex(intColor)}"
+        } }
 
         saveHabit.setOnClickListener { saveHabit() }
 
@@ -125,13 +121,14 @@ class HabitEditorFragment : Fragment() {
 
     private fun saveHabit() {
         if (position == -1) {
-            Adapter.habits.add(bindHabit(Habit()))
+            Logic.habits.add(bindHabit(Habit()))
             findNavController().popBackStack()
-            Adapter.notifyItemInserted(Adapter.habits.lastIndex)
+            Logic.state = State.ITEM_INSERTED
+            Logic.curPosition = Logic.habits.lastIndex
         } else {
-            bindHabit(Adapter.habits[position])
+            bindHabit(Logic.habits[position])
             findNavController().popBackStack()
-            Adapter.notifyItemChanged(position)
+            Logic.state = State.ITEM_CHANGED
         }
     }
 
