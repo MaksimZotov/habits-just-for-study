@@ -2,6 +2,7 @@ package com.maksimzotov.habits
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_view_pager.view.*
 
-class ViewPagerFragment : Fragment() {
+class ViewPagerFragment : Fragment(), OnDataSetChangedListener {
     lateinit var importantHabitsFragment: ListOfHabitsFragment
     lateinit var unimportantHabitsFragment: ListOfHabitsFragment
 
@@ -23,8 +24,7 @@ class ViewPagerFragment : Fragment() {
             .hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
         (activity as DrawerLockModeListener).unlock()
 
-        importantHabitsFragment.update()
-        unimportantHabitsFragment.update()
+        update()
     }
 
     override fun onCreateView(
@@ -42,11 +42,14 @@ class ViewPagerFragment : Fragment() {
         return view
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        importantHabitsFragment = ListOfHabitsFragment(Logic.habits)
-        unimportantHabitsFragment = ListOfHabitsFragment(Logic.habits)
+        if (!this::importantHabitsFragment.isInitialized) {
+            importantHabitsFragment = ListOfHabitsFragment(Logic.habits, this)
+            unimportantHabitsFragment = ListOfHabitsFragment(Logic.habits, this)
+        }
 
         view.orders_pager_view_pager.adapter = ViewPagerAdapter(
             listOf(
@@ -67,5 +70,10 @@ class ViewPagerFragment : Fragment() {
                 "Неважные привычки"
             }
         }.attach()
+    }
+
+    override fun update() {
+        importantHabitsFragment.update()
+        unimportantHabitsFragment.update()
     }
 }

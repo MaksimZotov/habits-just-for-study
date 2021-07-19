@@ -15,11 +15,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class ListOfHabitsFragment(
-    val habits: MutableList<Habit>
+    val habits: MutableList<Habit>,
+    val onDataSetChangedListener: OnDataSetChangedListener
 ) : Fragment(), HabitsAdapter.OnClickListener, HabitsAdapter.OnDataSetChangedListener {
 
     private var prevBG: Drawable? = null
     private lateinit var habitsAdapter: HabitsAdapter
+
+    override fun onResume() {
+        super.onResume()
+        onDataSetChangedListener.update()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +109,8 @@ class ListOfHabitsFragment(
     }
 
     override fun update() {
-        if (this::habitsAdapter.isInitialized) habitsAdapter.notifyDataSetChanged()
+        if (this::habitsAdapter.isInitialized) {
+            habitsAdapter.notifyDataSetChanged()
+        }
     }
 }
