@@ -47,8 +47,8 @@ class ViewPagerFragment : Fragment(), OnDataSetChangedListener {
         super.onViewCreated(view, savedInstanceState)
 
         if (!this::importantHabitsFragment.isInitialized) {
-            importantHabitsFragment = ListOfHabitsFragment(Logic.habits, this)
-            unimportantHabitsFragment = ListOfHabitsFragment(Logic.habits, this)
+            importantHabitsFragment = ListOfHabitsFragment(Logic.habitsImportant, this)
+            unimportantHabitsFragment = ListOfHabitsFragment(Logic.habitsUnimportant, this)
         }
 
         view.orders_pager_view_pager.adapter = ViewPagerAdapter(

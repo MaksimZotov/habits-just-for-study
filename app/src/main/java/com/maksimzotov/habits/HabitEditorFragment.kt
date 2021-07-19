@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +55,7 @@ class HabitEditorFragment : Fragment() {
         position = Logic.curPosition
 
         if (position != -1) {
-            val habit = Logic.habits[position]
+            val habit = Logic.curHabits[position]
             curView.name.setText(habit.name)
             curView.description.setText(habit.description)
             curView.priority.setSelection(habit.priorityPosition)
@@ -95,15 +94,23 @@ class HabitEditorFragment : Fragment() {
     }
 
     private fun saveHabit() {
-        if (position == -1) {
-            Logic.habits.add(bindHabit(Habit()))
-            findNavController().popBackStack()
-            Logic.itemState = ItemState.ITEM_INSERTED
-            Logic.curPosition = Logic.habits.lastIndex
+        val prevHabits = Logic.curHabits
+        val curHabits = if (view?.priority?.selectedItemPosition == 0) {
+            Logic.habitsImportant
         } else {
-            bindHabit(Logic.habits[position])
+            Logic.habitsUnimportant
+        }
+
+        if (position == -1 || curHabits != prevHabits) {
+            curHabits.add(bindHabit(Habit()))
             findNavController().popBackStack()
-            Logic.itemState = ItemState.ITEM_CHANGED
+            Logic.curPosition = curHabits.lastIndex
+            if (position != -1 && curHabits != prevHabits) {
+                prevHabits.removeAt(position)
+            }
+        } else {
+            bindHabit(curHabits[position])
+            findNavController().popBackStack()
         }
     }
 
