@@ -1,6 +1,5 @@
 package com.maksimzotov.habits
 
-import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -9,36 +8,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 
-class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
-    private var habits: MutableList<Habit> = Logic.habits
+class ListOfHabitsFragment(
+    val habits: MutableList<Habit>
+) : Fragment(), HabitsAdapter.OnClickListener, HabitsAdapter.OnDataSetChangedListener {
 
     private var prevBG: Drawable? = null
     private lateinit var habitsAdapter: HabitsAdapter
-
-    constructor(habits: MutableList<Habit>) : this() {
-        this.habits = habits
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val activity = requireActivity()
-        (activity
-            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
-        (activity as DrawerLockModeListener).unlock()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,11 +29,11 @@ class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
         val view = inflater.inflate(R.layout.fragment_list_of_habits, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val addHabit = view.findViewById<FloatingActionButton>(R.id.add_habit)
 
         habitsAdapter = HabitsAdapter(habits, this)
 
         recyclerView.adapter = habitsAdapter
+
         recyclerView.addItemDecoration(
             DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
         )
@@ -113,42 +94,15 @@ class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
 
         }).attachToRecyclerView(recyclerView)
 
-        addHabit.setOnClickListener {
-            Logic.curPosition = -1
-            findNavController().navigate(R.id.habitEditorFragment)
-        }
-
-        if (Logic.state == State.ITEM_INSERTED) {
-            habitsAdapter.notifyItemInserted(Logic.curPosition)
-        } else if (Logic.state == State.ITEM_CHANGED) {
-            habitsAdapter.notifyItemChanged(Logic.curPosition)
-        }
-
-        Logic.state = State.NOTHING
-        Logic.curPosition = -1
-
         return view
     }
-
-    /*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val activity = requireActivity()
-        val ordersPagerTabLayout = activity.findViewById<TabLayout>(R.id.orders_pager_tab_layout)
-        val ordersPagerViewPager = activity.findViewById<ViewPager2>(R.id.orders_pager_view_pager)
-        ordersPagerViewPager.adapter = ViewPagerAdapter(activity as AppCompatActivity)
-        TabLayoutMediator(ordersPagerTabLayout, ordersPagerViewPager) { tab, position ->
-            tab.text = if (position == 0) {
-                "Важные"
-            } else {
-                "Неважные"
-            }
-        }
-    }
-     */
 
     override fun onClick(position: Int) {
         Logic.curPosition = position
         findNavController().navigate(R.id.habitEditorFragment)
+    }
+
+    override fun update() {
+        if (this::habitsAdapter.isInitialized) habitsAdapter.notifyDataSetChanged()
     }
 }

@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/listOfHabitsFragment">
+    app:startDestination="@id/viewPagerFragment">
     <fragment
-        android:id="@+id/listOfHabitsFragment"
-        android:name="com.maksimzotov.habits.ListOfHabitsFragment"
+        android:id="@+id/viewPagerFragment"
+        android:name="com.maksimzotov.habits.ViewPagerFragment"
         android:label="Домашняя страница"
-        tools:layout="@layout/fragment_list_of_habits">
+        tools:layout="@layout/fragment_view_pager">
         <action
-            android:id="@+id/action_listOfHabitsFragment_to_habitEditorFragment2"
+            android:id="@+id/action_viewPagerFragment_to_habitEditorFragment"
             app:destination="@id/habitEditorFragment" />
         <action
-            android:id="@+id/action_listOfHabitsFragment_to_aboutAppFragment"
+            android:id="@+id/action_viewPagerFragment_to_aboutAppFragment"
             app:destination="@id/aboutAppFragment" />
     </fragment>
     <fragment
@@ -22,8 +22,8 @@
         android:label="Окно редактирования"
         tools:layout="@layout/fragment_habit_editor">
         <action
-            android:id="@+id/action_habitEditorFragment_to_listOfHabitsFragment"
-            app:destination="@id/listOfHabitsFragment" />
+            android:id="@+id/action_habitEditorFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
@@ -31,7 +31,7 @@
         android:label="О приложении"
         tools:layout="@layout/fragment_about_app">
         <action
-            android:id="@+id/action_aboutAppFragment_to_listOfHabitsFragment"
-            app:destination="@id/listOfHabitsFragment" />
+            android:id="@+id/action_aboutAppFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
     </fragment>
 </navigation>

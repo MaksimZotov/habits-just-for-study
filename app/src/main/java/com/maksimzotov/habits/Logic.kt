@@ -5,9 +5,9 @@ object Logic {
     val habitsImportant get() = habits.filter { it.priorityPosition == 0 }.toMutableList()
     val habitsUnimportant get() = habits.filter { it.priorityPosition == 1 }.toMutableList()
     var curPosition = -1
-    var state: State = State.NOTHING
+    var itemState: ItemState = ItemState.NOTHING
 }
 
-enum class State() {
-    ITEM_INSERTED(), ITEM_CHANGED(), NOTHING()
+enum class ItemState {
+    ITEM_INSERTED, ITEM_CHANGED, NOTHING
 }

@@ -3,7 +3,6 @@
 
     <string-array name="priorities">
         <item>Важно</item>
-        <item>Среднее</item>
         <item>Не важно</item>
     </string-array>
 </resources>
