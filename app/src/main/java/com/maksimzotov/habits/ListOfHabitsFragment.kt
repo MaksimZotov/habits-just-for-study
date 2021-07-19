@@ -130,6 +130,7 @@ class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
         return view
     }
 
+    /*
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val activity = requireActivity()
@@ -144,6 +145,7 @@ class ListOfHabitsFragment() : Fragment(), HabitsAdapter.OnClickListener {
             }
         }
     }
+     */
 
     override fun onClick(position: Int) {
         Logic.curPosition = position
