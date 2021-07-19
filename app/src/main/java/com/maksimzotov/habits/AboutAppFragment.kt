@@ -1,4 +1,23 @@
 package com.maksimzotov.habits
 
-class AboutAppFragment {
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+
+class AboutAppFragment : Fragment() {
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as DrawerLockModeListener).lock()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_about_app, container, false)
+    }
 }

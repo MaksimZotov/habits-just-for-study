@@ -1,5 +1,6 @@
 package com.maksimzotov.habits
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +18,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
     private var prevBG: Drawable? = null
+
+    override fun onResume() {
+        super.onResume()
+        val activity = requireActivity()
+        (activity
+            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+        (activity as DrawerLockModeListener).unlock()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -97,7 +108,6 @@ class ListOfHabitsFragment : Fragment(), Adapter.OnClickListener {
 
         return view
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

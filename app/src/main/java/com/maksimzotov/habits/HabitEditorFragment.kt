@@ -1,13 +1,18 @@
 package com.maksimzotov.habits
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
+import android.hardware.input.InputManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -34,6 +39,11 @@ class HabitEditorFragment : Fragment() {
     private lateinit var saveHabit: Button
     private lateinit var bgColors: LinearLayout
 
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as DrawerLockModeListener).lock()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
