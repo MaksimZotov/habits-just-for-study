@@ -28,8 +28,6 @@ class HabitEditorFragment : Fragment() {
     private val alphaBG = 97
     private val cornerRadiusBG = 20f
 
-    private var position = -1
-
     override fun onResume() {
         super.onResume()
         (requireActivity() as DrawerLockModeListener).lock()
@@ -60,10 +58,8 @@ class HabitEditorFragment : Fragment() {
         colorsBG.cornerRadius = cornerRadiusBG
         curView.bg_colors.background = colorsBG
 
-        position = viewModel.curPosition
-
-        if (position != -1) {
-            val habit = viewModel.curHabits[position]
+        if (viewModel.position != -1) {
+            val habit = viewModel.habits[viewModel.position]
             curView.name.setText(habit.name)
             curView.description.setText(habit.description)
             curView.priority.setSelection(habit.priorityPosition)
@@ -102,24 +98,15 @@ class HabitEditorFragment : Fragment() {
     }
 
     private fun saveHabit() {
-        val prevHabits = viewModel.curHabits
-        val curHabits = if (view?.priority?.selectedItemPosition == 0) {
-            viewModel.habitsImportant
+        val habits = viewModel.habits
+        val position = viewModel.position
+        if (position == -1) {
+            habits.add(bindHabit(Habit()))
+            viewModel.position = habits.lastIndex
         } else {
-            viewModel.habitsUnimportant
+            bindHabit(habits[position])
         }
-
-        if (position == -1 || curHabits != prevHabits) {
-            curHabits.add(bindHabit(Habit()))
-            findNavController().popBackStack()
-            viewModel.curPosition = curHabits.lastIndex
-            if (position != -1 && curHabits != prevHabits) {
-                prevHabits.removeAt(position)
-            }
-        } else {
-            bindHabit(curHabits[position])
-            findNavController().popBackStack()
-        }
+        findNavController().popBackStack()
     }
 
     private fun bindHabit(habit: Habit): Habit {

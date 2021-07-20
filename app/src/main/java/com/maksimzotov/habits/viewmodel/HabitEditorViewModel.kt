@@ -5,12 +5,10 @@ import com.maksimzotov.habits.model.State
 
 class HabitEditorViewModel : ViewModel() {
 
-    val habitsImportant get() = State.habitsImportant
-    val habitsUnimportant get() = State.habitsUnimportant
+    val habits get() = State.habits
 
-    val curHabits get() = State.curHabits
-    var curPosition get() = State.curPosition
+    var position get() = State.position
         set(value) {
-            State.curPosition = value
+            State.position = value
         }
 }

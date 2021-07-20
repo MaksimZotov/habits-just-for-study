@@ -1,5 +1,6 @@
 package com.maksimzotov.habits.view.fragments
 
+import android.app.Activity
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
@@ -7,36 +8,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.maksimzotov.habits.*
-import com.maksimzotov.habits.model.Habit
 import com.maksimzotov.habits.view.adapters.HabitItemsAdapter
-import com.maksimzotov.habits.view.listeners.OnDataSetChangedListener
+import com.maksimzotov.habits.view.listeners.DrawerLockModeListener
 import com.maksimzotov.habits.viewmodel.ListOfHabitsViewModel
+import kotlinx.android.synthetic.main.fragment_list_of_habits.view.*
 
-class ListOfHabitsFragment(
-    val habits: MutableList<Habit>,
-    val onDataSetChangedListener: OnDataSetChangedListener
-) : Fragment(), HabitItemsAdapter.OnClickListener, HabitItemsAdapter.OnDataSetChangedListener {
+class ListOfHabitsFragment()
+    : Fragment(), HabitItemsAdapter.OnClickListener {
 
-    private lateinit var viewModel: ListOfHabitsViewModel
+    private val viewModel by viewModels<ListOfHabitsViewModel>()
 
     private var prevBG: Drawable? = null
     private lateinit var habitItemsAdapter: HabitItemsAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return ListOfHabitsViewModel(habits) as T
-            }
-        }).get(ListOfHabitsViewModel::class.java)
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as DrawerLockModeListener).unlock()
     }
 
     override fun onCreateView(
@@ -48,7 +43,7 @@ class ListOfHabitsFragment(
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
 
-        habitItemsAdapter = HabitItemsAdapter(habits, this)
+        habitItemsAdapter = HabitItemsAdapter(viewModel.habits, this)
 
         recyclerView.adapter = habitItemsAdapter
 
@@ -112,22 +107,20 @@ class ListOfHabitsFragment(
 
         }).attachToRecyclerView(recyclerView)
 
+        view.add_habit.setOnClickListener { onClick(-1) }
+
+        habitItemsAdapter.notifyDataSetChanged()
+
+        val activity = requireActivity()
+        (activity
+            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .hideSoftInputFromWindow(requireActivity().currentFocus?.windowToken, 0)
+
         return view
     }
 
-    override fun onResume() {
-        super.onResume()
-        onDataSetChangedListener.update()
-    }
-
     override fun onClick(position: Int) {
-        viewModel.onClickHabit(position)
-        findNavController().navigate(R.id.habitEditorFragment)
-    }
-
-    override fun update() {
-        if (this::habitItemsAdapter.isInitialized) {
-            habitItemsAdapter.notifyDataSetChanged()
-        }
+        viewModel.onClick(position)
+        findNavController().navigate(R.id.action_listOfHabitsFragment_to_habitEditorFragment)
     }
 }

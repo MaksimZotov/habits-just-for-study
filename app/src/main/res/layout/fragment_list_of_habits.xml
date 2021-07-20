@@ -17,4 +17,18 @@
         android:textAlignment="center"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_habit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="48dp"
+        android:layout_marginBottom="48dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@color/design_default_color_primary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        app:tint="@color/white" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

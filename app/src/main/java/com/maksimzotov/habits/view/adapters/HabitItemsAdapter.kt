@@ -19,10 +19,6 @@ class HabitItemsAdapter(
         fun onClick(position: Int)
     }
 
-    interface OnDataSetChangedListener {
-        fun update()
-    }
-
     class ViewHolder(
         override val containerView: View, val onClickListener: OnClickListener
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer, View.OnClickListener {

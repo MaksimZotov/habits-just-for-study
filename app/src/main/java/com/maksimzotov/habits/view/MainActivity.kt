@@ -27,12 +27,12 @@ class MainActivity() : AppCompatActivity(), DrawerLockModeListener {
 
         navigation_view.setNavigationItemSelectedListener { menuItem ->
             if (menuItem.itemId == R.id.menu_item_about) {
-                navController.navigate(R.id.action_viewPagerFragment_to_aboutAppFragment)
+                navController.navigate(R.id.action_listOfHabitsFragment_to_aboutAppFragment)
             } else if (
                 menuItem.itemId == R.id.menu_item_home &&
                 navController.currentDestination?.id == R.id.aboutAppFragment
             ) {
-                navController.navigate(R.id.action_aboutAppFragment_to_viewPagerFragment)
+                navController.navigate(R.id.action_aboutAppFragment_to_listOfHabitsFragment)
             }
             navigation_drawer_layout.closeDrawers()
             return@setNavigationItemSelectedListener true

@@ -3,17 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/viewPagerFragment">
+    app:startDestination="@id/listOfHabitsFragment">
     <fragment
-        android:id="@+id/viewPagerFragment"
-        android:name="com.maksimzotov.habits.view.fragments.ViewPagerListOfHabitsFragment"
+        android:id="@+id/listOfHabitsFragment"
+        android:name="com.maksimzotov.habits.view.fragments.ListOfHabitsFragment"
         android:label="Домашняя страница"
-        tools:layout="@layout/fragment_view_pager">
+        tools:layout="@layout/fragment_list_of_habits">
         <action
-            android:id="@+id/action_viewPagerFragment_to_habitEditorFragment"
-            app:destination="@id/habitEditorFragment" />
+            android:id="@+id/action_listOfHabitsFragment_to_habitEditorFragment"
+            app:destination="@id/habitEditorFragment">
+            <argument
+                android:name="position"
+                app:argType="integer"
+                app:nullable="false" />
+        </action>
         <action
-            android:id="@+id/action_viewPagerFragment_to_aboutAppFragment"
+            android:id="@+id/action_listOfHabitsFragment_to_aboutAppFragment"
             app:destination="@id/aboutAppFragment" />
     </fragment>
     <fragment
@@ -21,9 +26,13 @@
         android:name="com.maksimzotov.habits.view.fragments.HabitEditorFragment"
         android:label="Окно редактирования"
         tools:layout="@layout/fragment_habit_editor">
+        <argument
+            android:name="position"
+            app:argType="integer"
+            app:nullable="false" />
         <action
-            android:id="@+id/action_habitEditorFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            android:id="@+id/action_habitEditorFragment_to_listOfHabitsFragment"
+            app:destination="@id/listOfHabitsFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
@@ -31,7 +40,7 @@
         android:label="О приложении"
         tools:layout="@layout/fragment_about_app">
         <action
-            android:id="@+id/action_aboutAppFragment_to_viewPagerFragment"
-            app:destination="@id/viewPagerFragment" />
+            android:id="@+id/action_aboutAppFragment_to_listOfHabitsFragment"
+            app:destination="@id/listOfHabitsFragment" />
     </fragment>
 </navigation>

@@ -4,10 +4,11 @@ import androidx.lifecycle.ViewModel
 import com.maksimzotov.habits.model.Habit
 import com.maksimzotov.habits.model.State
 
-class ListOfHabitsViewModel(val habits: MutableList<Habit>): ViewModel() {
+class ListOfHabitsViewModel(): ViewModel() {
 
-    fun onClickHabit(position: Int) {
-        State.curPosition = position
-        State.curHabits = habits
+    val habits get() = State.habits
+
+    fun onClick(position: Int) {
+        State.position = position
     }
 }
