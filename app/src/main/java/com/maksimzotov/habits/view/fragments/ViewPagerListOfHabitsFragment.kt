@@ -1,18 +1,26 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.fragments
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import com.maksimzotov.habits.*
+import com.maksimzotov.habits.view.adapters.ViewPagerListsOfHabitsAdapter
+import com.maksimzotov.habits.view.listeners.DrawerLockModeListener
+import com.maksimzotov.habits.view.listeners.OnDataSetChangedListener
+import com.maksimzotov.habits.viewmodel.ViewPagerListsOfHabitsViewModel
 import kotlinx.android.synthetic.main.fragment_view_pager.view.*
 
-class ViewPagerFragment : Fragment(), OnDataSetChangedListener {
+class ViewPagerListOfHabitsFragment : Fragment(), OnDataSetChangedListener {
+
+    private val viewModel by viewModels<ViewPagerListsOfHabitsViewModel>()
+
     lateinit var importantHabitsFragment: ListOfHabitsFragment
     lateinit var unimportantHabitsFragment: ListOfHabitsFragment
 
@@ -35,7 +43,7 @@ class ViewPagerFragment : Fragment(), OnDataSetChangedListener {
         val view = inflater.inflate(R.layout.fragment_view_pager, container, false)
 
         view.add_habit.setOnClickListener {
-            Logic.curPosition = -1
+            viewModel.onClickAddHabit()
             findNavController().navigate(R.id.habitEditorFragment)
         }
 
@@ -47,11 +55,11 @@ class ViewPagerFragment : Fragment(), OnDataSetChangedListener {
         super.onViewCreated(view, savedInstanceState)
 
         if (!this::importantHabitsFragment.isInitialized) {
-            importantHabitsFragment = ListOfHabitsFragment(Logic.habitsImportant, this)
-            unimportantHabitsFragment = ListOfHabitsFragment(Logic.habitsUnimportant, this)
+            importantHabitsFragment = ListOfHabitsFragment(viewModel.habitsImportant, this)
+            unimportantHabitsFragment = ListOfHabitsFragment(viewModel.habitsUnimportant, this)
         }
 
-        view.orders_pager_view_pager.adapter = ViewPagerAdapter(
+        view.orders_pager_view_pager.adapter = ViewPagerListsOfHabitsAdapter(
             listOf(
                 importantHabitsFragment,
                 unimportantHabitsFragment

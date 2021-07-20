@@ -1,4 +1,4 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.listeners
 
 interface DrawerLockModeListener {
     fun lock()

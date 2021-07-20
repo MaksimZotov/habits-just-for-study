@@ -1,4 +1,4 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.model
 
 class Habit {
     var name = ""

@@ -1,4 +1,4 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.fragments
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,22 +8,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.maksimzotov.habits.*
+import com.maksimzotov.habits.model.Habit
+import com.maksimzotov.habits.view.adapters.HabitItemsAdapter
+import com.maksimzotov.habits.view.listeners.OnDataSetChangedListener
+import com.maksimzotov.habits.viewmodel.ListOfHabitsViewModel
 
 class ListOfHabitsFragment(
     val habits: MutableList<Habit>,
     val onDataSetChangedListener: OnDataSetChangedListener
-) : Fragment(), HabitsAdapter.OnClickListener, HabitsAdapter.OnDataSetChangedListener {
+) : Fragment(), HabitItemsAdapter.OnClickListener, HabitItemsAdapter.OnDataSetChangedListener {
+
+    private lateinit var viewModel: ListOfHabitsViewModel
 
     private var prevBG: Drawable? = null
-    private lateinit var habitsAdapter: HabitsAdapter
+    private lateinit var habitItemsAdapter: HabitItemsAdapter
 
-    override fun onResume() {
-        super.onResume()
-        onDataSetChangedListener.update()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(this, object : ViewModelProvider.Factory {
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return ListOfHabitsViewModel(habits) as T
+            }
+        }).get(ListOfHabitsViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -35,9 +48,9 @@ class ListOfHabitsFragment(
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
 
-        habitsAdapter = HabitsAdapter(habits, this)
+        habitItemsAdapter = HabitItemsAdapter(habits, this)
 
-        recyclerView.adapter = habitsAdapter
+        recyclerView.adapter = habitItemsAdapter
 
         recyclerView.addItemDecoration(
             DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
@@ -64,15 +77,15 @@ class ListOfHabitsFragment(
             ): Boolean {
                 val from = viewHolder.adapterPosition
                 val to = target.adapterPosition
-                val habitFrom = habitsAdapter.habits.removeAt(from)
-                habitsAdapter.habits.add(to, habitFrom)
-                habitsAdapter.notifyItemMoved(from, to)
+                val habitFrom = habitItemsAdapter.habits.removeAt(from)
+                habitItemsAdapter.habits.add(to, habitFrom)
+                habitItemsAdapter.notifyItemMoved(from, to)
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                habitsAdapter.habits.removeAt(viewHolder.adapterPosition)
-                habitsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                habitItemsAdapter.habits.removeAt(viewHolder.adapterPosition)
+                habitItemsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
             }
 
             override fun onSelectedChanged(
@@ -102,15 +115,19 @@ class ListOfHabitsFragment(
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        onDataSetChangedListener.update()
+    }
+
     override fun onClick(position: Int) {
-        Logic.curPosition = position
-        Logic.curHabits = habits
+        viewModel.onClickHabit(position)
         findNavController().navigate(R.id.habitEditorFragment)
     }
 
     override fun update() {
-        if (this::habitsAdapter.isInitialized) {
-            habitsAdapter.notifyDataSetChanged()
+        if (this::habitItemsAdapter.isInitialized) {
+            habitItemsAdapter.notifyDataSetChanged()
         }
     }
 }

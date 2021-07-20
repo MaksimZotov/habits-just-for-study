@@ -1,17 +1,19 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.adapters
 
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.maksimzotov.habits.model.Habit
+import com.maksimzotov.habits.R
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_view.view.*
 
-class HabitsAdapter(
+class HabitItemsAdapter(
     val habits: MutableList<Habit>,
     private val onClickListener: OnClickListener
-) : RecyclerView.Adapter<HabitsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<HabitItemsAdapter.ViewHolder>() {
 
     interface OnClickListener {
         fun onClick(position: Int)

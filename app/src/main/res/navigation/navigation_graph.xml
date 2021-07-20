@@ -6,7 +6,7 @@
     app:startDestination="@id/viewPagerFragment">
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.maksimzotov.habits.ViewPagerFragment"
+        android:name="com.maksimzotov.habits.view.fragments.ViewPagerListOfHabitsFragment"
         android:label="Домашняя страница"
         tools:layout="@layout/fragment_view_pager">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/habitEditorFragment"
-        android:name="com.maksimzotov.habits.HabitEditorFragment"
+        android:name="com.maksimzotov.habits.view.fragments.HabitEditorFragment"
         android:label="Окно редактирования"
         tools:layout="@layout/fragment_habit_editor">
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutAppFragment"
-        android:name="com.maksimzotov.habits.AboutAppFragment"
+        android:name="com.maksimzotov.habits.view.fragments.AboutAppFragment"
         android:label="О приложении"
         tools:layout="@layout/fragment_about_app">
         <action

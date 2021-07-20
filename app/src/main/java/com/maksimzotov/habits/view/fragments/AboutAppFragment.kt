@@ -1,10 +1,12 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.maksimzotov.habits.view.listeners.DrawerLockModeListener
+import com.maksimzotov.habits.R
 
 class AboutAppFragment : Fragment() {
 

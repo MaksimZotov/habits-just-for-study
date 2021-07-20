@@ -1,6 +1,6 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.model
 
-object Logic {
+object State {
     val habitsImportant = mutableListOf<Habit>()
     val habitsUnimportant = mutableListOf<Habit>()
     var curHabits: MutableList<Habit> = mutableListOf()

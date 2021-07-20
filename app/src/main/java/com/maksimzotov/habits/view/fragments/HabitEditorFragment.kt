@@ -1,4 +1,4 @@
-package com.maksimzotov.habits
+package com.maksimzotov.habits.view.fragments
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -9,11 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.maksimzotov.habits.view.listeners.DrawerLockModeListener
+import com.maksimzotov.habits.model.Habit
+import com.maksimzotov.habits.R
+import com.maksimzotov.habits.viewmodel.HabitEditorViewModel
 import kotlinx.android.synthetic.main.fragment_habit_editor.view.*
 import java.lang.Exception
 
 class HabitEditorFragment : Fragment() {
+
+    private val viewModel by viewModels<HabitEditorViewModel>()
+
     private val defaultRGB = "255, 57, 0"
     private val defaultHSV = "#FF3900"
 
@@ -52,10 +60,10 @@ class HabitEditorFragment : Fragment() {
         colorsBG.cornerRadius = cornerRadiusBG
         curView.bg_colors.background = colorsBG
 
-        position = Logic.curPosition
+        position = viewModel.curPosition
 
         if (position != -1) {
-            val habit = Logic.curHabits[position]
+            val habit = viewModel.curHabits[position]
             curView.name.setText(habit.name)
             curView.description.setText(habit.description)
             curView.priority.setSelection(habit.priorityPosition)
@@ -94,17 +102,17 @@ class HabitEditorFragment : Fragment() {
     }
 
     private fun saveHabit() {
-        val prevHabits = Logic.curHabits
+        val prevHabits = viewModel.curHabits
         val curHabits = if (view?.priority?.selectedItemPosition == 0) {
-            Logic.habitsImportant
+            viewModel.habitsImportant
         } else {
-            Logic.habitsUnimportant
+            viewModel.habitsUnimportant
         }
 
         if (position == -1 || curHabits != prevHabits) {
             curHabits.add(bindHabit(Habit()))
             findNavController().popBackStack()
-            Logic.curPosition = curHabits.lastIndex
+            viewModel.curPosition = curHabits.lastIndex
             if (position != -1 && curHabits != prevHabits) {
                 prevHabits.removeAt(position)
             }
