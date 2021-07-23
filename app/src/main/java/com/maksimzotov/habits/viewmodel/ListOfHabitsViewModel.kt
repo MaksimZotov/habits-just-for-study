@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import com.maksimzotov.habits.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,9 +12,10 @@ import kotlinx.coroutines.launch
 class ListOfHabitsViewModel(application: Application): AndroidViewModel(application) {
 
     private val repository = HabitRepository(
-        HabitDatabase
-            .getDatabase(application)
-            .habitDao()
+        Room
+            .databaseBuilder(application, HabitDatabase::class.java, "My database")
+            .allowMainThreadQueries()
+            .build().habitDao()
     )
 
     val habits: LiveData<List<Habit>> = repository.habits
