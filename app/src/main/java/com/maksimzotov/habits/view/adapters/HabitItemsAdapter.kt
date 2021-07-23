@@ -11,16 +11,20 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_view.view.*
 
 class HabitItemsAdapter(
-    val habits: MutableList<Habit>,
-    private val onClickListener: OnClickListener
+    private val onActionListener: OnActionListener
 ) : RecyclerView.Adapter<HabitItemsAdapter.ViewHolder>() {
+    private var habits = listOf<Habit>()
+    fun setHabits(habits: List<Habit>, comparator: Comparator<Habit>) {
+        this.habits = habits.toMutableList().sortedWith(comparator)
+        notifyDataSetChanged()
+    }
 
-    interface OnClickListener {
+    interface OnActionListener {
         fun onClick(position: Int)
     }
 
     class ViewHolder(
-        override val containerView: View, val onClickListener: OnClickListener
+        override val containerView: View, val onActionListener: OnActionListener
     ) : RecyclerView.ViewHolder(containerView), LayoutContainer, View.OnClickListener {
 
         init {
@@ -33,7 +37,7 @@ class HabitItemsAdapter(
         }
 
         override fun onClick(view: View) {
-            onClickListener.onClick(adapterPosition)
+            onActionListener.onClick(adapterPosition)
         }
     }
 
@@ -41,7 +45,7 @@ class HabitItemsAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return ViewHolder(
             inflater.inflate(R.layout.item_view, parent, false),
-            onClickListener
+            onActionListener
         )
     }
 

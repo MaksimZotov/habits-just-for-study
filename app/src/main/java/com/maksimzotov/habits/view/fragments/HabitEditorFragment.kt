@@ -9,18 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.maksimzotov.habits.view.listeners.DrawerLockModeListener
 import com.maksimzotov.habits.model.Habit
 import com.maksimzotov.habits.R
-import com.maksimzotov.habits.viewmodel.HabitEditorViewModel
+import com.maksimzotov.habits.viewmodel.ListOfHabitsViewModel
 import kotlinx.android.synthetic.main.fragment_habit_editor.view.*
 import java.lang.Exception
 
 class HabitEditorFragment : Fragment() {
 
-    private val viewModel by viewModels<HabitEditorViewModel>()
+    private lateinit var viewModel: ListOfHabitsViewModel
 
     private val defaultRGB = "255, 57, 0"
     private val defaultHSV = "#FF3900"
@@ -40,6 +40,8 @@ class HabitEditorFragment : Fragment() {
     ): View? {
         val curView = inflater.inflate(R.layout.fragment_habit_editor, container, false)
 
+        viewModel = ViewModelProvider(requireActivity()).get(ListOfHabitsViewModel::class.java)
+
         val colorsBG = GradientDrawable(
             GradientDrawable.Orientation.BL_TR,
             intArrayOf(
@@ -58,8 +60,8 @@ class HabitEditorFragment : Fragment() {
         colorsBG.cornerRadius = cornerRadiusBG
         curView.bg_colors.background = colorsBG
 
-        if (viewModel.position != -1) {
-            val habit = viewModel.habits[viewModel.position]
+        if (viewModel.curHabit != null) {
+            val habit = viewModel.curHabit!!
             curView.name.setText(habit.name)
             curView.description.setText(habit.description)
             curView.priority.setSelection(habit.priorityPosition)
@@ -98,13 +100,10 @@ class HabitEditorFragment : Fragment() {
     }
 
     private fun saveHabit() {
-        val habits = viewModel.habits
-        val position = viewModel.position
-        if (position == -1) {
-            habits.add(bindHabit(Habit()))
-            viewModel.position = habits.lastIndex
+        if (viewModel.curHabit == null) {
+            viewModel.add(bindHabit(Habit(number = viewModel.habitsSize)))
         } else {
-            bindHabit(habits[position])
+            viewModel.update(bindHabit(viewModel.curHabit!!))
         }
         findNavController().popBackStack()
     }
